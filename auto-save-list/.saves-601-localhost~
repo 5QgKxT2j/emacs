@@ -1,0 +1,8 @@
+/home/k-ohsugi/Dropbox/meeting/withHasegawa/GreenICN/M2-meeting.org
+/home/k-ohsugi/Dropbox/meeting/withHasegawa/GreenICN/#M2-meeting.org#
+/ssh:client1@192.168.10.85:/home/client1/send.c
+#_assh_bclient1@192.168.10.85_b_ahome_aclient1_asend.c#
+/ssh:server1@192.168.10.90:/home/server1/receive.c
+#_assh_bserver1@192.168.10.90_b_ahome_aserver1_areceive.c#
+/home/k-ohsugi/Dropbox/meeting/withHasegawa/GreenICN/M2-meeting.org_archive
+/home/k-ohsugi/Dropbox/meeting/withHasegawa/GreenICN/#M2-meeting.org_archive#

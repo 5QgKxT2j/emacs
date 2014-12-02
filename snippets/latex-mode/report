@@ -1,0 +1,24 @@
+# -*- mode: snippet -*-
+# name: report
+# key: rep
+# --
+\documentclass[a4j]{jsarticle}
+\title{${1:$$(yas-choose-value '("情報ネットワーク学基礎論" "モバイル
+通信プロトコル"))}第$2回レポート課題}
+\author{情報科学研究科情報ネットワーク学専攻\\\長谷川研究室 1 年 大杉海斗\\\
+学籍番号: 33E13003}
+\date{2013 年  $3月 $4日 ($5)}
+\bibliographystyle{jplain}
+\usepackage{url}
+\usepackage[dvipdfmx]{graphicx}
+\begin{document}
+\maketitle
+
+$0
+
+
+
+%\nocite{*}
+%\bibliography{}
+
+\end{document}

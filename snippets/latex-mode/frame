@@ -1,0 +1,9 @@
+# -*- mode: snippet -*-
+# name: frame
+# key: fra
+# --
+\begin{frame}{$1}
+  \begin{itemize}
+     \item $2
+  \end{itemize}
+\end{frame}

@@ -1,0 +1,45 @@
+# -*- mode: snippet -*-
+# name: beamer
+# key: bea
+# --
+
+\documentclass[dvipdfmx,14pt]{beamer}
+\usepackage{pxjahyper}
+\bibliographystyle{jplain}
+\usepackage{url}
+
+%\usetheme{CambridgeUS}
+%\usetheme{Boadilla}
+%\usetheme{Madrid}
+%\usetheme{Antibes}
+%\usetheme{Montpellier}
+%\usetheme{Berkeley}
+%\usetheme{Goettingen}
+\usetheme{Singapore}
+%\usetheme{Szeged}
+\usecolortheme{seahorse}
+
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{footline}[frame number]
+\setbeamertemplate{headline}{}
+
+\title{$1}
+\author{大杉 海斗}
+\institute{大阪大学大学院情報科学研究科 情報ネットワーク学専攻\\\長谷川
+  研究室 M1}
+\date{\today}
+
+\begin{document}
+
+\begin{frame}
+ \titlepage
+\end{frame}
+
+$0
+
+
+%\nocite{*}
+%\bibliography{}
+
+
+\end{document}

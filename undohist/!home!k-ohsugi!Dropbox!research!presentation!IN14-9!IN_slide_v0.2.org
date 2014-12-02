@@ -1,0 +1,53 @@
+
+((digest . "9815cdafe3d6807e1315f3e48971a744") (undo-list nil ("** 電力消費モデルの定式化
+   - ルータの消費電力は，以下の消費電力の合計
+     - ルータがアイドル時に消費する電力
+     - デバイスが ICN プロトコル処理のために消費する電力
+       - \\alert{CPU}
+       - メモリデバイス
+       - NIC (Network Interface Card)
+   - \\alert{本モデルは， 2 つの入力パラメータだけで電力の推定を行うことができる}
+     - ネットワーク全体の消費電力を解析やシミュレーションで容易に計算す
+       ることが可能
+
+*** 式: ルータの消費電力
+$P_{router}(\\lambda^{IN}_{Interest}, p^{hit}_{CS}) = P_{IDLE} +
+\\alert{P_{cpu}(cores)} + P_{mem}(bytes) + P_{nic}(rate_{packet}) \\mathrm{[W]}$
+     - $\\lambda^{IN}_{Interest}$: 入力 Interest パケットレート
+     - $p^{hit}_{CS}$: キャッシュヒット率
+       
+** 電力消費モデルの定式化
+   - ルータの消費電力は，以下の消費電力の合計
+     - ルータがアイドル時に消費する電力
+     - デバイスが ICN プロトコル処理のために消費する電力
+       - CPU
+       - \\alert{メモリデバイス}
+       - NIC (Network Interface Card)
+   - \\alert{本モデルは， 2 つの入力パラメータだけで電力の推定を行うことができる}
+     - ネットワーク全体の消費電力を解析やシミュレーションで容易に計算す
+       ることが可能
+
+*** 式: ルータの消費電力
+$P_{router}(\\lambda^{IN}_{Interest}, p^{hit}_{CS}) = P_{IDLE} +
+P_{cpu}(cores) + \\alert{P_{mem}(bytes)} + P_{nic}(rate_{packet}) \\mathrm{[W]}$
+     - $\\lambda^{IN}_{Interest}$: 入力 Interest パケットレート
+     - $p^{hit}_{CS}$: キャッシュヒット率
+       
+** 電力消費モデルの定式化
+   - ルータの消費電力は，以下の消費電力の合計
+     - ルータがアイドル時に消費する電力
+     - デバイスが ICN プロトコル処理のために消費する電力
+       - CPU
+       - メモリデバイス
+       - \\alert{NIC (Network Interface Card)}
+   - \\alert{本モデルは， 2 つの入力パラメータだけで電力の推定を行うことができる}
+     - ネットワーク全体の消費電力を解析やシミュレーションで容易に計算す
+       ることが可能
+
+*** 式: ルータの消費電力
+$P_{router}(\\lambda^{IN}_{Interest}, p^{hit}_{CS}) = P_{IDLE} +
+P_{cpu}(cores) + P_{mem}(bytes) + \\alert{P_{nic}(rate_{packet})} \\mathrm{[W]}$
+     - $\\lambda^{IN}_{Interest}$: 入力 Interest パケットレート
+     - $p^{hit}_{CS}$: キャッシュヒット率
+       
+" . 2155) (t 21508 42661 123398 26000) ((marker) . -15) ((marker) . -15) ((marker) . -41) ((marker) . -41) ((marker) . -65) ((marker) . -65) ((marker) . -100) ((marker) . -100) ((marker) . -121) ((marker) . -121) ((marker) . -138) ((marker) . -138) ((marker) . -176) ((marker) . -176) ((marker) . -225) ((marker) . -225) ((marker) . -265) ((marker) . -265) ((marker) . -279) ((marker) . -279) ((marker) . -280) ((marker) . -280) ((marker) . -296) ((marker) . -296) ((marker) . -360) ((marker) . -360) ((marker) . -439) ((marker) . -439) ((marker) . -493) ((marker) . -493) ((marker) . -526) ((marker) . -526) ((marker) . -534) ((marker) . -534) ((marker) . -549) ((marker) . -549) ((marker) . -575) ((marker) . -575) ((marker) . -599) ((marker) . -599) ((marker) . -634) ((marker) . -634) ((marker) . -647) ((marker) . -647) ((marker) . -672) ((marker) . -672) ((marker) . -710) ((marker) . -710) ((marker) . -759) ((marker) . -759) ((marker) . -799) ((marker) . -799) ((marker) . -813) ((marker) . -813) ((marker) . -814) ((marker) . -814) ((marker) . -830) ((marker) . -830) ((marker) . -894) ((marker) . -894) ((marker) . -973) ((marker) . -973) ((marker) . -1027) ((marker) . -1027) ((marker) . -1060) ((marker) . -1060) ((marker) . -1068) ((marker) . -1068) ((marker) . -1083) ((marker) . -1083) ((marker) . -1109) ((marker) . -1109) ((marker) . -1133) ((marker) . -1133) ((marker) . -1168) ((marker) . -1168) ((marker) . -1181) ((marker) . -1181) ((marker) . -1198) ((marker) . -1198) ((marker) . -1244) ((marker) . -1244) ((marker) . -1293) ((marker) . -1293) ((marker) . -1333) ((marker) . -1333) ((marker) . -1347) ((marker) . -1347) ((marker) . -1348) ((marker) . -1348) ((marker) . -1364) ((marker) . -1364) ((marker) . -1428) ((marker) . -1428) ((marker) . -1507) ((marker) . -1507) ((marker) . -1561) ((marker) . -1561) ((marker) . -1594) ((marker) . -1594) ((marker) . -1602) ((marker) . -1602) ((marker) . -14) ((marker) . -533) ((marker) . -548) ((marker) . -1067) ((marker) . -1082) ((marker) . -1601) ((marker) . -1602)))

@@ -1,0 +1,4 @@
+/etc/wicd/encryption/templates/wpa
+/etc/wicd/encryption/templates/#wpa#
+/etc/wicd/encryption/templates/wpa2-peap-stealth
+/etc/wicd/encryption/templates/#wpa2-peap-stealth#

@@ -1,0 +1,25 @@
+# -*- mode: snippet -*-
+# name: adjust_margin
+# key: adj
+# binding: direct-keybinding
+
+# --
+
+%% 高さの設定
+\setlength{\textwidth}{\paperheight}    % ひとまず紙面を本文領域に
+\setlength{\topmargin}{-5.4truemm}      % 上の余白を 20mm (=1inch-5.4mm) に
+\addtolength{\topmargin}{-\headheight}  % 
+\addtolength{\topmargin}{-\headsep}     % ヘッダの分だけ本文領域を移動させる
+
+\addtolength{\textwidth}{-60truemm}     % 下の余白も 20mm に
+
+
+%% 幅の設定
+\setlength{\textwidth}{\paperwidth}     % ひとまず紙面を本文領域に
+\setlength{\oddsidemargin}{-5.4truemm}  % 左の余白を 20mm (=1inch-5.4mm) に
+\setlength{\evensidemargin}{-5.4truemm} % 
+\addtolength{\textwidth}{-40truemm}     % 右の余白も 20mm に
+
+\addtolength{\textheight}{+30mm}
+\addtolength{\footskip}{+10mm}
+

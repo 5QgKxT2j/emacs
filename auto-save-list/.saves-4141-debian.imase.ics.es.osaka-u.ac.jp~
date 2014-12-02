@@ -1,0 +1,6 @@
+/sudo:root@debian.imase.ics.es.osaka-u.ac.jp:/etc/init.d/alsastore
+#_asudo_broot@debian.imase.ics.es.osaka-u.ac.jp_b_aetc_ainit.d_aalsastore#
+/sudo:root@debian.imase.ics.es.osaka-u.ac.jp:/etc/init.d/alsa-utils
+#_asudo_broot@debian.imase.ics.es.osaka-u.ac.jp_b_aetc_ainit.d_aalsa-utils#
+/sudo:root@debian.imase.ics.es.osaka-u.ac.jp:/etc/init.d/wicd-client
+#_asudo_broot@debian.imase.ics.es.osaka-u.ac.jp_b_aetc_ainit.d_awicd-client#

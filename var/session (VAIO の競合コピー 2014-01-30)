@@ -1,0 +1,535 @@
+;;; Automatically generated on Wed Jan 29 18:09:21 2014
+;;; Invoked by k-ohsugi@VAIO using 24.3.1
+(setq-default kill-ring '("class/network_seminar2/" #("  **" 0 4 (fontified t)) #("
+" 0 1 (fontified t)) #("M1 Meeting" 0 10 (fontified t font-lock-fontified t face org-document-title)) #("* 2013 年 12 月 xx 日
+** 今回行ったこと
+   - 前回十分に読めていなかった「 Optimal Multipath Congestion
+     Control and Request Forwarding in Informaiton-Centric Networks 」
+     を読み，最適化問題の式の意味を理解した
+
+   - NDN における Adaptive forwarding を最適化問題として定式化できるか，
+        あるいは定式化は難しいかを考えた
+
+** 
+
+* 2013 年 12 月 16 日
+** 
+** 今回行ったこと
+   - NDN における Adaptive forwarding を最適化問題として定式化できるか，
+     あるいは定式化は難しいかを考えるため，「 A case for stateful
+     forwarding plane 」と「 Optimal Multi Path Congestion Control and
+     Request Forwarding in Informaiton-Centric Networks 」 n を読み，
+
+** 
+   ここから論文の概要・論文で挙げられている課題・自分自身で考えたことな
+     どを順に挙げていく
+** 
+\\Large{ A case for stateful forwarding plane}
+
+** 概要
+   - IP において， ルータの forwarding plane は， FIB にしたがってパケッ
+     トを転送している (stateless) だけなのに対して， NDN においては，ルー
+     タは， Interest と Data という異なるパケットの state を管理している
+     (stateful)
+     - 利点は， RTT やスループット，リンク障害や輻輳，問題のある場所を
+       避けるオルタネイティブなパスを利用することができる
+*** 本論文では，次のことを提供する
+    - NDN の forwarding plane の具体的な設計を提案する
+    - ネットワークの問題から素早い回復を可能とする NACK メカニズムを紹介する
+
+
+** 得られた知見
+   - NDN では，各リンクで 1 つの Interest に対して 多くとも 1 つの
+     Data しか戻されないため，各ルータが Interest をフォワーディングす
+     る量を制限することで輻輳制御が可能である
+     - 各 Interest に対して face 単位と (Prefix:face) の組でのレート制限を行っている
+   - 本論文では，ルータが上流ルータで輻輳していることを検知すると下流の
+     ルータに NACK を返すことを行っている
+     - タイムアウトを待たなくて済む
+     - PIT にいつまで待っても Data が届かないエントリ (dangling state) が残ることを防ぐ
+
+** 挙げられていた問題
+   - Interest パケットを同時に 1 つの face から送出するか，複数の face
+     から送出するか
+   - NDN では， Multipath をサポートしているが，ベストパス以外のパスを
+     予備として使うか，あるいはトラヒックを分割して複数のパスを使うか
+   - 本論文で提案した設計では，以前に障害が起きた，あるいは使っていな
+     いパスに定期的に Interest を送出することで使えるパスを探している．
+     どのような間隔で，またどの face に対して使えるパスを探索するか
+
+** 論文を読んで思ったこと (1)
+   - 本論文では，各 Interest に対して face 単位と (Prefix:face) の組で
+     のレート制限を行っているが， face 単位だけで十分ではないのか
+     - prefix 単位でのレート管理は，計算量とメモリ使用量の割にメリット
+       が小さいと予想される
+       - prefix 数 m ， face 数 n とすると Interest パケットを受け取る
+         たびに， prefix 単位だと O (nlogm) かかるのに対して， face 単位なら
+         O (n) で済む?
+   - トレードオフが発生するのは， NACK による素早い再送・ dangling
+     state に陥った PIT エントリ の削減とトラヒック量
+** 論文を読んで思ったこと (2)
+   - 本論文では，ルータは，各 prefix に対して face に優先度を付け，優先度の高い
+     face から順にパケットをフォワーディングしている (forwarding plane で
+     の処理) ，一方で「 OSPFN: An OSPF based routing protocol for
+     Named Data Networking 」では，ルータは，各 face に優先度を付け
+     (prefix 単位ではない) ，優先度の高い face から先に Interest が送ら
+     れるようにように FIB にセットしている (routing plane での処理) ．どち
+     らの方がよいパフォーマンスを示すのだろうか
+
+** 
+\\Large{Optimal Multi Path Congestion Control and Request Forwarding in Informaiton-Centric Networks}
+
+** 概要
+   - multipath における輻輳制御と forwarding request を最適化問題として
+     定式化し，解いている
+     - ユーザのスループットを最大化し，ネットワーク全体のコストを最小
+       化する
+   - 上のものを解くために，受信者が行う最適輻輳制御とノードが行う分散アルゴ
+     リズムに分けている
+
+** 論文を読んで思ったこと
+   - 正直なところ，途中からなぜそのような式が導出できるか全く理解でき
+     なかった
+     - Lagrangian の知識が不足していると感じた
+   - したがって，今回は最適化問題を考えるに至らなかった
+
+
+
+" 0 2 (face org-level-1 fontified t) 2 18 (face org-level-1 fontified t) 18 19 (fontified t) 19 20 (face org-level-2 fontified t) 20 22 (face org-level-2 fontified t) 22 29 (face org-level-2 fontified t) 29 253 (fontified t) 253 254 (face org-level-2 fontified t) 254 256 (face org-level-2 fontified t) 256 257 (fontified t) 257 258 (fontified t) 258 260 (fontified t face org-level-1) 260 276 (fontified t face org-level-1) 276 277 (fontified t) 277 278 (fontified t face org-level-2) 278 280 (fontified t face org-level-2) 280 281 (fontified t) 281 282 (fontified t face org-level-2) 282 284 (fontified t face org-level-2) 284 291 (fontified t face org-level-2) 291 344 (fontified t) 344 524 (fontified t) 524 525 (fontified t face org-level-2) 525 527 (fontified t face org-level-2) 527 581 (fontified t) 581 582 (fontified t face org-level-2) 582 584 (fontified t face org-level-2) 584 632 (fontified t) 632 633 (fontified t face org-level-2) 633 635 (fontified t face org-level-2) 635 637 (fontified t face org-level-2) 637 849 (fontified t) 849 882 (fontified t) 882 884 (fontified t face org-level-3) 884 886 (fontified t face org-level-3) 886 901 (fontified t face org-level-3) 901 991 (fontified t) 991 992 (fontified t face org-level-2) 992 994 (fontified t face org-level-2) 994 1000 (fontified t face org-level-2) 1000 1333 (fontified t) 1333 1334 (fontified t face org-level-2) 1334 1336 (fontified t face org-level-2) 1336 1345 (fontified t face org-level-2) 1345 1396 (fontified t) 1396 2779 (fontified nil) 2779 2780 (fontified nil) 2780 2781 (fontified t)) #("hogehoge" 0 8 (fontified t)) "% Created 2014-01-29 水 16:33
+\\documentclass[dvipdfmx,12pt]{beamer}
+\\usepackage{url}
+\\usepackage{pxjahyper}
+\\usetheme{Madrid}
+\\setbeamertemplate{navigation symbols}{}
+\\beamertemplatetextbibitems
+%\\setbeamertemplate{footline}[frame number]
+\\setbeamertemplate{headline}{}
+
+
+\\institute[]{大阪大学大学院情報科学研究科\\\\
+            情報ネットワーク学専攻\\\\
+            情報流通プラットフォーム講座 長谷川研究室 M1}
+\\usetheme{default}
+\\author{大杉 海斗}
+\\date{\\today}
+\\title{M1 ミーティング}
+\\hypersetup{
+  pdfkeywords={},
+  pdfsubject={},
+  pdfcreator={Emacs 24.3.1 (Org mode 8.2.5g)}}
+\\begin{document}
+
+\\maketitle
+
+\\section{2014 年 01 月 29 日}
+\\label{sec-1}
+\\begin{frame}[label=sec-1-1]{前回までのまとめ}
+\\begin{itemize}
+\\item NDN における Adaptive forwarding を最適化問題として定式化できるか，
+あるいは定式化は難しいかを考えたが，論文の式の意味を理解できていな
+かったため，うまくいかなかった
+\\item 
+\\end{itemize}
+\\end{frame}
+
+\\begin{frame}[label=sec-1-2]{本日得たいフィードバック}
+\\begin{itemize}
+\\item 研究の方針決定
+\\begin{itemize}
+\\item 目的を固める
+\\end{itemize}
+\\end{itemize}
+\\end{frame}
+
+\\begin{frame}[label=sec-1-3]{今回までに行ったこと}
+\\begin{itemize}
+\\item Optimal Congestion Control の論文を精読した
+\\begin{itemize}
+\\item ウィンドウサイズの決定の式以外は，結局良くわからなかった
+\\end{itemize}
+\\end{itemize}
+\\end{frame}
+
+\\section{2013 年 12 月 16 日}
+\\label{sec-2}
+\\begin{frame}[label=sec-2-1]{今回行ったこと}
+\\begin{itemize}
+\\item NDN における Adaptive forwarding を最適化問題として定式化できるか，
+あるいは定式化は難しいかを考えるため，「 A case for stateful
+forwarding plane 」と「 Optimal Multi Path Congestion Control and
+Request Forwarding in Informaiton-Centric Networks 」 を読み，
+\\end{itemize}
+\\end{frame}
+\\begin{frame}[label=sec-2-2]{}
+ここから論文の概要・論文で挙げられている課題・自分自身で考えたことな
+  どを順に挙げていく
+\\end{frame}
+
+\\begin{frame}[label=sec-2-3]{}
+\\Large{ A case for stateful forwarding plane}
+\\end{frame}
+\\begin{frame}[label=sec-2-4]{概要}
+\\begin{itemize}
+\\item IP において， ルータの forwarding plane は， FIB にしたがってパケッ
+トを転送している (stateless) だけなのに対して， NDN においては，ルー
+タは， Interest と Data という異なるパケットの state を管理している
+(stateful)
+\\begin{itemize}
+\\item 利点は， RTT やスループット，リンク障害や輻輳，問題のある場所を
+避けるオルタネイティブなパスを利用することができる
+\\end{itemize}
+\\end{itemize}
+\\begin{block}{本論文では，次のことを提供する}%x
+\\begin{itemize}
+\\item NDN の forwarding plane の具体的な設計を提案する
+\\item ネットワークの問題から素早い回復を可能とする NACK メカニズムを紹介する
+\\end{itemize}
+\\end{block}
+\\end{frame}
+
+\\begin{frame}[label=sec-2-5]{得られた知見}
+\\begin{itemize}
+\\item NDN では，各リンクで 1 つの Interest に対して 多くとも 1 つの
+Data しか戻されないため，各ルータが Interest をフォワーディングす
+る量を制限することで輻輳制御が可能である
+\\begin{itemize}
+\\item 各 Interest に対して face 単位と (Prefix:face) の組でのレート制限を行っている
+\\end{itemize}
+\\item 本論文では，ルータが上流ルータで輻輳していることを検知すると下流の
+ルータに NACK を返すことを行っている
+\\begin{itemize}
+\\item タイムアウトを待たなくて済む
+\\item PIT にいつまで待っても Data が届かないエントリ (dangling state) が残ることを防ぐ
+\\end{itemize}
+\\end{itemize}
+\\end{frame}
+\\begin{frame}[label=sec-2-6]{挙げられていた問題}
+\\begin{itemize}
+\\item Interest パケットを同時に 1 つの face から送出するか，複数の face
+から送出するか
+\\item NDN では， Multipath をサポートしているが，ベストパス以外のパスを
+予備として使うか，あるいはトラヒックを分割して複数のパスを使うか
+\\item 本論文で提案した設計では，以前に障害が起きた，あるいは使っていな
+いパスに定期的に Interest を送出することで使えるパスを探している．
+どのような間隔で，またどの face に対して使えるパスを探索するか
+\\end{itemize}
+\\end{frame}
+\\begin{frame}[label=sec-2-7]{論文を読んで思ったこと (1)}
+\\begin{itemize}
+\\item 本論文では，各 Interest に対して face 単位と (Prefix:face) の組で
+のレート制限を行っているが， face 単位だけで十分ではないのか
+\\begin{itemize}
+\\item prefix 単位でのレート管理は，計算量とメモリ使用量の割にメリット
+が小さいと予想される
+\\begin{itemize}
+\\item prefix 数 m ， face 数 n とすると Interest パケットを受け取る
+たびに， prefix 単位だと O (nlogm) かかるのに対して， face 単位なら
+O (n) で済む?
+\\end{itemize}
+\\end{itemize}
+\\item トレードオフが発生するのは， NACK による素早い再送・ dangling
+state に陥った PIT エントリ の削減とトラヒック量
+\\end{itemize}
+\\end{frame}
+
+\\begin{frame}[label=sec-2-8]{論文を読んで思ったこと (2)}
+\\begin{itemize}
+\\item 本論文では，ルータは，各 prefix に対して face に優先度を付け，優先度の高い
+face から順にパケットをフォワーディングしている (forwarding plane で
+の処理) ，一方で「 OSPFN: An OSPF based routing protocol for
+Named Data Networking 」では，ルータは，各 face に優先度を付け
+(prefix 単位ではない) ，優先度の高い face から先に Interest が送ら
+れるようにように FIB にセットしている (routing plane での処理) ．どち
+らの方がよいパフォーマンスを示すのだろうか
+\\end{itemize}
+\\end{frame}
+\\begin{frame}[label=sec-2-9]{}
+\\Large{Optimal Multi Path Congestion Control and Request Forwarding in Informaiton-Centric Networks}
+\\end{frame}
+\\begin{frame}[label=sec-2-10]{概要}
+\\begin{itemize}
+\\item multipath における輻輳制御と forwarding request を最適化問題として
+定式化し，解いている
+\\begin{itemize}
+\\item ユーザのスループットを最大化し，ネットワーク全体のコストを最小
+化する
+\\end{itemize}
+\\item 上のものを解くために，受信者が行う最適輻輳制御とノードが行う分散アルゴ
+リズムに分けている
+\\end{itemize}
+\\end{frame}
+\\begin{frame}[label=sec-2-11]{論文を読んで思ったこと}
+\\begin{itemize}
+\\item 正直なところ，途中からなぜそのような式が導出できるか全く理解でき
+なかった
+\\begin{itemize}
+\\item Lagrangian の知識が不足していると感じた
+\\end{itemize}
+\\item したがって，今回は最適化問題を考えるに至らなかった
+\\end{itemize}
+\\end{frame}
+% Emacs 24.3.1 (Org mode 8.2.5g)
+\\end{document}" #("       - 
+" 0 9 (fontified t) 9 10 (fontified t)) #("結局よく分からなかった
+     - " 0 11 (fontified t) 11 12 (fontified t) 12 19 (fontified t)) #("るために，" 0 5 (fontified t)) #("timal Multi Path Congestion Control and
+     Request Forwarding in Informaiton-Centric Networks 」" 0 39 (fontified t) 39 40 (fontified t) 40 97 (fontified t)) #("「 A case for stateful" 0 21 (fontified t)) #(" を読み，" 0 5 (fontified t)) #("NDN における Adaptive forwarding を最適化問題として定式化できるか，
+     あるいは定式化は難しいかを考えるため，「 A case for stateful
+     forwarding plane 」と「 Optimal Multi Path Congestion Control and
+     Request Forwarding in Informaiton-Centric Networks 」 を読み，
+" 0 93 (fontified t) 93 224 (fontified t)) #("** 
+" 0 1 (face org-level-2 fontified t) 1 3 (face org-level-2 fontified t) 3 4 (fontified t)) #(" " 0 1 (fontified t font-lock-fontified t face org-meta-line)) #(" " 0 1 (fontified t)) #("
+   - 前回十分に読めていなかった「 Optimal Multipath Congestion
+     Control and Request Forwarding in Informaiton-Centric Networks 」
+     を読み，最適化問題の式の意味を理解した
+
+   - NDN における Adaptive forwarding を最適化問題として定式化できるか，
+        あるいは定式化は難しいかを考えた
+     " 0 1 (fontified t) 1 223 (fontified t) 223 228 (fontified t)) "Dropbox/meeting/withHasegawa/140129/" "% Created 2014-01-29 水 14:26
+\\documentclass[dvipdfmx,12pt]{beamer}
+\\usepackage{url}
+\\usepackage{pxjahyper}
+\\usetheme{Madrid}
+\\setbeamertemplate{navigation symbols}{}
+\\beamertemplatetextbibitems
+%\\setbeamertemplate{footline}[frame number]
+\\setbeamertemplate{headline}{}
+
+
+\\institute[]{大阪大学大学院情報科学研究科\\\\
+            情報ネットワーク学専攻\\\\
+            情報流通プラットフォーム講座 長谷川研究室 M1}
+\\usetheme{default}
+\\author{大杉 海斗}
+\\date{\\today}
+\\title{M1 ミーティング}
+\\hypersetup{
+  pdfkeywords={},
+  pdfsubject={},
+  pdfcreator={Emacs 24.3.1 (Org mode 8.2.5g)}}
+\\begin{document}
+
+\\maketitle
+
+\\section{2014 年 01 月 29 日}
+\\label{sec-1}
+\\begin{frame}[label=sec-1-1]{今回行ったこと}
+\\begin{itemize}
+\\item 前回十分に読めていなかった「 Optimal Multipath Congestion
+Control and Request Forwarding in Informaiton-Centric Networks 」
+を読み，最適化問題の式の意味を理解した
+
+\\item NDN における Adaptive forwarding を最適化問題として定式化できるか，
+あるいは定式化は難しいかを考えた
+\\end{itemize}
+\\end{frame}
+\\section{2013 年 12 月 16 日}
+\\label{sec-2}
+\\begin{frame}[label=sec-2-1]{}
+\\end{frame}
+\\begin{frame}[label=sec-2-2]{今回行ったこと}
+\\begin{itemize}
+\\item NDN における Adaptive forwarding を最適化問題として定式化できるか，
+あるいは定式化は難しいかを考えるため，「 A case for stateful
+forwarding plane 」と「 Optimal Multi Path Congestion Control and
+Request Forwarding in Informaiton-Centric Networks 」 を読み，
+\\end{itemize}
+\\end{frame}
+\\begin{frame}[label=sec-2-3]{}
+ここから論文の概要・論文で挙げられている課題・自分自身で考えたことな
+  どを順に挙げていく
+\\end{frame}
+
+\\begin{frame}[label=sec-2-4]{}
+\\Large{ A case for stateful forwarding plane}
+\\end{frame}
+\\begin{frame}[label=sec-2-5]{概要}
+\\begin{itemize}
+\\item IP において， ルータの forwarding plane は， FIB にしたがってパケッ
+トを転送している (stateless) だけなのに対して， NDN においては，ルー
+タは， Interest と Data という異なるパケットの state を管理している
+(stateful)
+\\begin{itemize}
+\\item 利点は， RTT やスループット，リンク障害や輻輳，問題のある場所を
+避けるオルタネイティブなパスを利用することができる
+\\end{itemize}
+\\end{itemize}
+\\begin{block}{本論文では，次のことを提供する}%x
+\\begin{itemize}
+\\item NDN の forwarding plane の具体的な設計を提案する
+\\item ネットワークの問題から素早い回復を可能とする NACK メカニズムを紹介する
+\\end{itemize}
+\\end{block}
+\\end{frame}
+
+\\begin{frame}[label=sec-2-6]{得られた知見}
+\\begin{itemize}
+\\item NDN では，各リンクで 1 つの Interest に対して 多くとも 1 つの
+Data しか戻されないため，各ルータが Interest をフォワーディングす
+る量を制限することで輻輳制御が可能である
+\\begin{itemize}
+\\item 各 Interest に対して face 単位と (Prefix:face) の組でのレート制限を行っている
+\\end{itemize}
+\\item 本論文では，ルータが上流ルータで輻輳していることを検知すると下流の
+ルータに NACK を返すことを行っている
+\\begin{itemize}
+\\item タイムアウトを待たなくて済む
+\\item PIT にいつまで待っても Data が届かないエントリ (dangling state) が残ることを防ぐ
+\\end{itemize}
+\\end{itemize}
+\\end{frame}
+\\begin{frame}[label=sec-2-7]{挙げられていた問題}
+\\begin{itemize}
+\\item Interest パケットを同時に 1 つの face から送出するか，複数の face
+から送出するか
+\\item NDN では， Multipath をサポートしているが，ベストパス以外のパスを
+予備として使うか，あるいはトラヒックを分割して複数のパスを使うか
+\\item 本論文で提案した設計では，以前に障害が起きた，あるいは使っていな
+いパスに定期的に Interest を送出することで使えるパスを探している．
+どのような間隔で，またどの face に対して使えるパスを探索するか
+\\end{itemize}
+\\end{frame}
+\\begin{frame}[label=sec-2-8]{論文を読んで思ったこと (1)}
+\\begin{itemize}
+\\item 本論文では，各 Interest に対して face 単位と (Prefix:face) の組で
+のレート制限を行っているが， face 単位だけで十分ではないのか
+\\begin{itemize}
+\\item prefix 単位でのレート管理は，計算量とメモリ使用量の割にメリット
+が小さいと予想される
+\\begin{itemize}
+\\item prefix 数 m ， face 数 n とすると Interest パケットを受け取る
+たびに， prefix 単位だと O (nlogm) かかるのに対して， face 単位なら
+O (n) で済む?
+\\end{itemize}
+\\end{itemize}
+\\item トレードオフが発生するのは， NACK による素早い再送・ dangling
+state に陥った PIT エントリ の削減とトラヒック量
+\\end{itemize}
+\\end{frame}
+
+\\begin{frame}[label=sec-2-9]{論文を読んで思ったこと (2)}
+\\begin{itemize}
+\\item 本論文では，ルータは，各 prefix に対して face に優先度を付け，優先度の高い
+face から順にパケットをフォワーディングしている (forwarding plane で
+の処理) ，一方で「 OSPFN: An OSPF based routing protocol for
+Named Data Networking 」では，ルータは，各 face に優先度を付け
+(prefix 単位ではない) ，優先度の高い face から先に Interest が送ら
+れるようにように FIB にセットしている (routing plane での処理) ．どち
+らの方がよいパフォーマンスを示すのだろうか
+\\end{itemize}
+\\end{frame}
+\\begin{frame}[label=sec-2-10]{}
+\\Large{Optimal Multi Path Congestion Control and Request Forwarding in Informaiton-Centric Networks}
+\\end{frame}
+\\begin{frame}[label=sec-2-11]{概要}
+\\begin{itemize}
+\\item multipath における輻輳制御と forwarding request を最適化問題として
+定式化し，解いている
+\\begin{itemize}
+\\item ユーザのスループットを最大化し，ネットワーク全体のコストを最小
+化する
+\\end{itemize}
+\\item 上のものを解くために，受信者が行う最適輻輳制御とノードが行う分散アルゴ
+リズムに分けている
+\\end{itemize}
+\\end{frame}
+\\begin{frame}[label=sec-2-12]{論文を読んで思ったこと}
+\\begin{itemize}
+\\item 正直なところ，途中からなぜそのような式が導出できるか全く理解でき
+なかった
+\\begin{itemize}
+\\item Lagrangian の知識が不足していると感じた
+\\end{itemize}
+\\item したがって，今回は最適化問題を考えるに至らなかった
+\\end{itemize}
+\\end{frame}
+% Emacs 24.3.1 (Org mode 8.2.5g)
+\\end{document}" #("* 
+
+
+" 0 2 (font-lock-fontified t fontified t face org-level-1 org-category #1="140129_meeting") 2 3 (font-lock-fontified t fontified t org-category #1#) 3 4 (org-category #1# fontified t font-lock-fontified t) 4 5 (fontified t)) #("* 2013 年 12 月 xx 日" 0 2 (face org-level-1 fontified t) 2 18 (face org-level-1 fontified t)) #("** 
+
+" 0 1 (face org-level-2 fontified t) 1 3 (face org-level-2 fontified t) 3 4 (fontified t) 4 5 (fontified t)) #("#+TITLE: M1 Meeting
+#+AUTHOR: 大杉 海斗
+#+EMAIL: k-ohsugi@ist.osaka-u.ac.jp
+#+DATE: \\today
+#+OPTIONS: H:2 toc:nil
+#+LATEX_CLASS: beamer
+#+LATEX_CLASS_OPTIONS: [dvipdfmx,12pt]
+" 0 8 (face org-document-info-keyword font-lock-fontified t fontified t) 8 9 (fontified t) 9 20 (face org-document-title font-lock-fontified t fontified t) 20 29 (face org-document-info-keyword font-lock-fontified t fontified t) 29 30 (fontified t) 30 36 (face org-document-info font-lock-fontified t fontified t) 36 44 (face org-document-info-keyword font-lock-fontified t fontified t) 44 45 (fontified t) 45 72 (face org-document-info font-lock-fontified t fontified t) 72 79 (face org-document-info-keyword font-lock-fontified t fontified t) 79 80 (fontified t) 80 87 (face org-document-info font-lock-fontified t fontified t) 87 109 (face org-meta-line font-lock-fontified t fontified t) 109 110 (fontified t) 110 131 (face org-meta-line font-lock-fontified t fontified t) 131 132 (fontified t) 132 170 (face org-meta-line font-lock-fontified t fontified t) 170 171 (fontified t)) #("slide" 0 5 (face org-meta-line fontified t font-lock-fontified t)) #("_meeting" 0 8 (face org-document-title font-lock-fontified t fontified t)) #("コンテンツセントリックネットワークにおける災害時の輻輳制御" 0 29 (face org-document-title fontified t font-lock-fontified t)) #("#+TITLE: コンテンツセントリックネットワークにおける災害時の輻輳制御
+#+AUTHOR: 大杉 海斗
+#+DATE: \\today
+#+OPTIONS: H:2 toc:nil ^:nil
+
+#+LATEX_CLASS: beamer
+#+LATEX_CLASS_OPTIONS: [dvipdfmx,12pt]
+#+BIBLIOGRAPHY: slide
+" 0 8 (face org-document-info-keyword font-lock-fontified t fontified t) 8 9 (fontified t) 9 39 (face org-document-title font-lock-fontified t fontified t) 39 48 (face org-document-info-keyword font-lock-fontified t fontified t) 48 49 (fontified t) 49 55 (face org-document-info font-lock-fontified t fontified t) 55 62 (face org-document-info-keyword font-lock-fontified t fontified t) 62 63 (fontified t) 63 70 (face org-document-info font-lock-fontified t fontified t) 70 98 (face org-meta-line font-lock-fontified t fontified t) 98 100 (fontified t) 100 121 (face org-meta-line font-lock-fontified t fontified t) 121 122 (fontified t) 122 160 (face org-meta-line font-lock-fontified t fontified t) 160 161 (fontified t) 161 182 (face org-meta-line font-lock-fontified t fontified t) 182 183 (fontified t)) #("情報ネットワーク学基礎論第 8 回レポート課題" 0 23 (face org-document-title fontified t font-lock-fontified t)) #("#+TITLE: 情報ネットワーク学基礎論第 8 回レポート課題
+#+AUTHOR: 情報科学研究科情報ネットワーク学専攻\\\\長谷川研究室 1 年 大杉海斗\\\\学籍番号: 33E13003
+#+EMAIL: k-ohsugi@ist.osaka-u.ac.jp
+#+DATE: 2014 年  01 月 09 日 (木)
+#+OPTIONS: H:2 toc:nil
+#+LATEX_CLASS: jsarticle
+#+LATEX_CLASS_OPTIONS: [a4j,10.5pt]
+#+BIBLIOGRAPHY: " 0 8 (face org-document-info-keyword font-lock-fontified t fontified t) 8 9 (fontified t) 9 33 (face org-document-title font-lock-fontified t fontified t) 33 42 (face org-document-info-keyword font-lock-fontified t fontified t) 42 43 (fontified t) 43 95 (face org-document-info font-lock-fontified t fontified t) 95 103 (face org-document-info-keyword font-lock-fontified t fontified t) 103 104 (fontified t) 104 131 (face org-document-info font-lock-fontified t fontified t) 131 138 (face org-document-info-keyword font-lock-fontified t fontified t) 138 139 (fontified t) 139 161 (face org-document-info font-lock-fontified t fontified t) 161 183 (face org-meta-line font-lock-fontified t fontified t) 183 184 (fontified t) 184 208 (face org-meta-line font-lock-fontified t fontified t) 208 209 (fontified t) 209 244 (face org-meta-line font-lock-fontified t fontified t) 244 245 (fontified t) 245 261 (face org-meta-line font-lock-fontified t fontified t)) #("#+TITLE: 情報ネットワーク学基礎論第 8 回レポート課題
+#+AUTHOR: 情報科学研究科情報ネットワーク学専攻\\\\長谷川研究室 1 年 大杉海斗\\\\学籍番号: 33E13003
+#+EMAIL: k-ohsugi@ist.osaka-u.ac.jp
+#+DATE: 2014 年  01 月 09 日 (木)
+#+OPTIONS: H:2 toc:nil
+#+LATEX_CLASS: jsarticle
+#+LATEX_CLASS_OPTIONS: [a4j,10.5pt]
+#+BIBLIOGRAPHY: 
+" 0 8 (face org-document-info-keyword font-lock-fontified t fontified t) 8 9 (fontified t) 9 33 (face org-document-title font-lock-fontified t fontified t) 33 42 (face org-document-info-keyword font-lock-fontified t fontified t) 42 43 (fontified t) 43 95 (face org-document-info font-lock-fontified t fontified t) 95 103 (face org-document-info-keyword font-lock-fontified t fontified t) 103 104 (fontified t) 104 131 (face org-document-info font-lock-fontified t fontified t) 131 138 (face org-document-info-keyword font-lock-fontified t fontified t) 138 139 (fontified t) 139 161 (face org-document-info font-lock-fontified t fontified t) 161 183 (face org-meta-line font-lock-fontified t fontified t) 183 184 (fontified t) 184 208 (face org-meta-line font-lock-fontified t fontified t) 208 209 (fontified t) 209 244 (face org-meta-line font-lock-fontified t fontified t) 244 245 (fontified t) 245 261 (face org-meta-line font-lock-fontified t fontified t) 261 262 (fontified t)) #("* " 0 2 (face org-level-1 fontified t)) #("bea" 0 3 (fontified t))))
+(setq-default session-file-alist '(("~/Dropbox/class/network_seminar2/paper.org" 194 163 1 nil nil 191 (overwrite-mode)) ("~/Dropbox/configure/.emacs.d/var/recentf" 13246 nil 1 nil nil nil (overwrite-mode)) ("~/Dropbox/meeting/withHasegawa/140129/140129_meeting.org" 457 323 1 nil nil 501 (overwrite-mode)) ("~/Dropbox/meeting/withHasegawa/140129/140129_meeting.tex" 4476 nil 1 nil nil nil (overwrite-mode)) ("~/Dropbox/configure/.emacs.d/inits/20_org-mode.el" 135 nil 1 nil nil 135 (overwrite-mode)) ("~/Dropbox/class/network_seminar2/slide.org" 184 1 1 nil nil 3204 (overwrite-mode)) ("~/Dropbox/class/basic_network/report8/report8.org" 1 262 1 nil nil 1478 (overwrite-mode)) ("/mnt/Dropbox/class/network_seminar2/slide.org" 3204 nil 1 nil nil 3204 (overwrite-mode)) ("/mnt/Dropbox/configure/.emacs.d/var/recentf" 13200 nil 1 nil nil nil (overwrite-mode)) ("/mnt/Dropbox/configure/.emacs.d/elpa/helm-20140128.614/helm-autoloads.el" 44406 nil 1 nil nil 44406 (overwrite-mode)) ("/mnt/Dropbox/configure/.emacs.d/inits/60_yasnippet.el" 1 nil 1 nil nil 23 (overwrite-mode)) ("/mnt/Dropbox/class/basic_network/report8/report8.org" 1478 679 1 nil nil 1478 (overwrite-mode)) ("/mnt/Dropbox/job_hunting/PR.org" 342 nil 1 nil nil 326 (overwrite-mode)) ("/mnt/Dropbox/etc/company_information/company_info.org" 2264 1717 1 nil nil 2470 (overwrite-mode)) ("/mnt/Dropbox/class/network_seminar2/slide.tex" 4828 nil 1 nil nil nil (overwrite-mode)) ("/mnt/Dropbox/configure/.emacs.d/url/cookies" 505 nil 1 nil nil nil (overwrite-mode)) ("/mnt/Dropbox/configure/.emacs.d/elpa/helm-20140128.14/helm-autoloads.el" 44449 nil 1 nil nil 44449 (overwrite-mode)) ("/mnt/Dropbox/configure/.emacs.d/inits/20_org-mode.el" 1477 nil 1 nil nil 1477 (overwrite-mode)) ("/mnt/Dropbox/configure/.emacs.d/elpa/org-20140127/org-loaddefs.el" 86902 nil 1 nil nil 86900 (overwrite-mode)) ("/mnt/Dropbox/configure/.emacs.d/elpa/auto-complete-20140127.632/auto-complete-autoloads.el" 488 nil 1 nil nil 488 (overwrite-mode)) ("/mnt/Dropbox/configure/.emacs.d/elpa/org-20140127/org-autoloads.el" 27237 nil 1 nil nil 27237 (overwrite-mode)) ("/mnt/Dropbox/configure/.emacs.d/elpa/ctable-20140126.2201/ctable-autoloads.el" 180 nil 1 nil nil 180 (overwrite-mode)) ("/mnt/Dropbox/configure/.emacs.d/elpa/helm-20140127.46/helm-autoloads.el" 44450 nil 1 nil nil 44450 (overwrite-mode)) ("/mnt/Dropbox/etc/company_information/company_info.tex" 1456 nil 1 nil nil nil (overwrite-mode)) ("/mnt/Dropbox/class/network_seminar2/slide.bib" 242 659 1 nil nil 659 (overwrite-mode)) ("/mnt/Dropbox/meeting/all/131224/131224_all_meeting.org" 3295 641 1 nil nil 614 (overwrite-mode)) ("/mnt/Dropbox/meeting/withHasegawa/1312xx/1312xx_M1_meeting.org" 979 816 1 nil nil 2952 (overwrite-mode)) ("/mnt/Dropbox/configure/.emacs.d/inits/99_aspell.el" 1 136 1 nil nil 366 (overwrite-mode)) ("/mnt/Dropbox/job_hunting/introduction.txt" 305 nil 1 nil nil nil (overwrite-mode)) ("/mnt/Dropbox/configure/.emacs.d/elpa/zlc-readme.txt" 1 nil 1 nil nil nil (overwrite-mode)) ("/mnt/Dropbox/configure/.emacs.d/elpa/dkdo-readme.txt" 542 nil 1 nil nil nil (overwrite-mode)) ("/mnt/Dropbox/configure/.emacs.d/elpa/archives/gnu/archive-contents" 228 nil 1 nil nil nil (overwrite-mode)) ("/mnt/Dropbox/configure/.emacs.d/elpa/helm-20140125.1101/helm-autoloads.el" 44449 nil 1 nil nil 44449 (overwrite-mode)) ("/mnt/Dropbox/configure/.emacs.d/elpa/yasnippet-20140106.1009/yasnippet-autoloads.el" 1493 nil 1 nil nil 1493 (overwrite-mode)) ("/mnt/Dropbox/configure/.emacs.d/inits/00_default.el" 4223 4222 1 nil nil 4223 (overwrite-mode)) ("/mnt/Dropbox/configure/.emacs.d/elpa/helm-c-yasnippet-20140117.2255/helm-c-yasnippet-autoloads.el" 802 nil 1 nil nil 802 (overwrite-mode)) ("/mnt/Dropbox/class/network_seminar2/slide_structure.org" 214 129 1 nil nil 214 (overwrite-mode)) ("/mnt/Dropbox/configure/.emacs.d/inits/00_default.elc" 61 nil 1 nil nil nil (overwrite-mode)) ("/mnt/Dropbox/configure/.emacs.d/elpa/cl-lib-0.4/cl-lib-autoloads.el" 180 nil 1 nil nil 180 (overwrite-mode)) ("/mnt/Dropbox/job_hunting/yahoo_es.org" 316 53 1 nil nil 591 (overwrite-mode)) ("/mnt/Dropbox/old/old_presentation/society12/paper.tex" 1554 1912 1 nil nil 1901 (overwrite-mode)) ("/mnt/Dropbox/class/mobile_protocol/report6/report6.org" 752 713 1 nil nil 752 (overwrite-mode)) ("/mnt/Dropbox/class/mobile_protocol/report6/report6.bib" 115 31 1 nil nil 14 (overwrite-mode)) ("/mnt/Dropbox/class/mobile_protocol/report6/report6.tex" 1005 nil 1 nil nil nil (overwrite-mode)) ("/mnt/Dropbox/configure/.emacs.d/elpa/helm-20140109.2330/helm-autoloads.el" 52957 nil 1 nil nil 52957 (overwrite-mode)) ("/mnt/Dropbox/configure/.emacs.d/elpa/helm-c-yasnippet-20140108.2238/helm-c-yasnippet-autoloads.el" 210 nil 1 nil nil 210 (overwrite-mode)) ("/mnt/Dropbox/configure/.emacs.d/elpa/multi-term-20140109.502/multi-term-autoloads.el" 1341 nil 1 nil nil 1341 (overwrite-mode)) ("/mnt/Dropbox/configure/.emacs.d/snippets/org-mode/beamer" 152 nil 1 nil nil 207 (overwrite-mode)) ("/mnt/Dropbox/configure/.emacs.d/snippets/org-mode/report" 50 nil 1 nil nil 247 (overwrite-mode)) ("/mnt/Dropbox/class/basic_network/report8/report8.org_archive" 118 nil 1 nil nil 380 (overwrite-mode)) ("/mnt/Dropbox/class/basic_network/report8/report8.tex" 2371 nil 1 nil nil nil (overwrite-mode)) ("/mnt/Dropbox/configure/.emacs.d/init.el" 1 nil 1 nil nil 983 (overwrite-mode)) ("/mnt/Dropbox/configure/.emacs.d/elpa/org-20140107/org-loaddefs.el" 86900 nil 1 nil nil 86900 (overwrite-mode)) ("/mnt/Dropbox/configure/.emacs.d/elpa/dash-20140108.559/dash-autoloads.el" 172 nil 1 nil nil 172 (overwrite-mode)) ("/mnt/Dropbox/configure/.emacs.d/elpa/helm-20140108.738/helm-autoloads.el" 52915 nil 1 nil nil 52915 (overwrite-mode)) ("/mnt/Dropbox/configure/.emacs.d/elpa/helm-c-yasnippet-20140108.643/helm-c-yasnippet-autoloads.el" 209 nil 1 nil nil 209 (overwrite-mode)) ("/mnt/Dropbox/configure/.emacs.d/elpa/org-20140107/org-autoloads.el" 27229 nil 1 nil nil 27229 (overwrite-mode)) ("~/Dropbox/configure/.zshrc" 1024 908 1 nil nil 1037 (overwrite-mode)) ("~/.config/awesome/rc.lua" 21693 21675 1 nil nil 21692 (overwrite-mode)) ("/sudo:root@VAIO:/etc/acpi/actions/handler.sh" 1 685 1 nil nil 866 (overwrite-mode)) ("~/Dropbox/configure/.emacs.d/elpa/org-20140106/org-loaddefs.el" 86900 nil 1 nil nil 86900 (overwrite-mode)) ("~/Dropbox/configure/.emacs.d/elpa/auctex-latexmk-20140107.215/auctex-latexmk-autoloads.el" 467 nil 1 nil nil 467 (overwrite-mode)) ("~/Dropbox/configure/.emacs.d/elpa/org-20140106/org-autoloads.el" 27239 nil 1 nil nil 27239 (overwrite-mode)) ("~/Dropbox/configure/.emacs.d/elpa/yasnippet-20140106.1009/yasnippet-autoloads.el" 1493 nil 1 nil nil 1493 (overwrite-mode)) ("/sudo:root@VAIO:/etc/default/grub" 155 53 1 nil nil 132 (overwrite-mode)) ("/etc/default/grub" 30 nil 1 nil nil nil (overwrite-mode)) ("/sudo:root@VAIO:/etc/grub.d/10_linux" 788 1 1 nil nil nil (overwrite-mode)) ("/sudo:root@VAIO:/etc/grub.d/00_header" 2917 1060 1 nil nil nil (overwrite-mode)) ("/etc/grub.d/00_header" 1674 nil 1 nil nil nil (overwrite-mode)) ("/sudo:root@VAIO:/boot/grub/grub.cfg" 3215 2083 1 nil nil 3216 (overwrite-mode)) ("/boot/grub/grub.cfg" 5136 nil 1 nil nil nil (overwrite-mode)) ("/boot/grub/grub.cfg.example" 4064 nil 1 nil nil nil (overwrite-mode)) ("~/.zsh_history" 23147 19247 1 nil nil 23192 (overwrite-mode)) ("/mnt/Dropbox/configure/.emacs.d/elpa/org-20140104/org-loaddefs.el" 86900 nil 1 nil nil 86900 (overwrite-mode)) ("/mnt/Dropbox/awesome/rc.lua" 8322 8321 1 nil nil nil (overwrite-mode)) ("/mnt/Dropbox/awesome/wi.lua" 8952 8432 1 nil nil nil (overwrite-mode)) ("/mnt/Dropbox/awesome/themes/dust/theme.lua" 122 nil 1 nil nil nil (overwrite-mode)) ("/mnt/Dropbox/configure/.emacs.d/elpa/helm-20140105.615/helm-autoloads.el" 52924 nil 1 nil nil 52924 (overwrite-mode)) ("/mnt/Dropbox/configure/.emacs.d/elpa/org-20140104/org-autoloads.el" 27231 nil 1 nil nil 27231 (overwrite-mode)) ("~/Dropbox/configure/.emacs.d/elpa/dash-20140103.1117/dash-autoloads.el" 174 nil 1 nil nil 174 (overwrite-mode)) ("/etc/acpi/actions/handler.sh" 1 nil 1 nil nil nil (overwrite-mode))))
+(setq-default file-name-history '("~/Dropbox/meeting/withHasegawa/1312xx/1312xx_M1_meeting.org" "~/Dropbox/meeting/withHasegawa/140129/" "~/Dropbox/class/network_seminar2/paper.org" "~/Dropbox/meeting/withHasegawa/140129/140129_meeting.org" "~/.emacs.d/inits/20_org-mode.el" "~/Dropbox/class/network_seminar2/slide.org" "~/Dropbox/class/basic_network/report8/report8.org" "~/Dropbox/meeting/withHasegawa/140129" "~/Dropbox/meeting/withHasegawa/" "~/.emacs.d/elpa/helm-20140128.614/helm-autoloads.el" "~/.emacs.d/inits/60_yasnippet.el" "~/Dropbox/job_hunting/PR.org" "~/Dropbox/etc/company_information/company_info.org" "~/.emacs.d/elpa/helm-20140128.14/helm-autoloads.el" "~/.emacs.d/elpa/org-20140127/org-loaddefs.el" "~/.emacs.d/elpa/auto-complete-20140127.632/auto-complete-autoloads.el" "~/.emacs.d/elpa/org-20140127/org-autoloads.el" "/tmp/packerbuild-1000/vmware-patch/vmware-patch/PKGBUILD" "~/.emacs.d/elpa/ctable-20140126.2201/ctable-autoloads.el" "~/.emacs.d/elpa/helm-20140127.46/helm-autoloads.el" "/tmp/Re__1390813115816.eml" "~/Dropbox/class/network_seminar2/slide.tex" "~/Dropbox/class/network_seminar2/slide.bib" "~/Dropbox/meeting/all/131224/131224_all_meeting.org" "~/.emacs.d/inits/99_aspell.el" "~/Dropbox/job_hunting/introduction.txt" "~/.emacs.d/elpa/zlc-readme.txt" "~/.emacs.d/elpa/dkdo-readme.txt" "~/.emacs.d/elpa/archives/gnu/archive-contents" "~/.emacs.d/elpa/helm-20140125.1101/helm-autoloads.el" "~/.emacs.d/elpa/yasnippet-20140106.1009/yasnippet-autoloads.el" "~/.emacs.d/url/cookies" "~/.emacs.d/inits/00_default.el" "~/.emacs.d/inits/" "~/.emacs.d/elpa/helm-c-yasnippet-20140117.2255/helm-c-yasnippet-autoloads.el" "~/Dropbox/class/network_seminar2/slide_structure.org" "~/.emacs.d/inits/00_default.elc" "~/.emacs.d/elpa/cl-lib-0.4/cl-lib-autoloads.el" "~/Dropbox/old/old_presentation/society12/paper.tex" "~/Dropbox/job_hunting/yahoo_es.org" "/home/k-ohsugi/Dropbox/old/old_presentation/society12/paper.tex" "/tmp/Re__1390462982671.eml" "/tmp/Re__1390445826147.eml" "/tmp/Re__1390475580341.eml" "~/Dropbox/class/mobile_protocol/report6/report6.bib" "~/Dropbox/class/mobile_protocol/report6/report6.org" "/tmp/_1390213404483.eml" "~/.emacs.d/elpa/helm-20140109.2330/helm-autoloads.el" "~/.emacs.d/elpa/helm-c-yasnippet-20140108.2238/helm-c-yasnippet-autoloads.el" "~/.emacs.d/elpa/multi-term-20140109.502/multi-term-autoloads.el" "/mnt/Dropbox/configure/.emacs.d/init.el" "~/Dropbox/class/basic_network/report8/report8.org_archive" "~/.emacs.d/snippets/org-mode/beamer" "~/.emacs.d/snippets/org-mode/report" "~/Dropbox/class/basic_network/report8" "~/Dropbox/class/basic_network/" "~/.emacs.d/elpa/dash-20140108.559/dash-autoloads.el" "~/.emacs.d/elpa/helm-20140108.738/helm-autoloads.el" "~/.emacs.d/elpa/helm-c-yasnippet-20140108.643/helm-c-yasnippet-autoloads.el" "~/.emacs.d/elpa/org-20140107/org-loaddefs.el" "~/.emacs.d/elpa/org-20140107/org-autoloads.el" "~/.zshrc" "~/.config/awesome/rc.lua" "/sudo:root@VAIO:/etc/acpi/actions/handler.sh" "/etc/acpi/actions/handler.sh" "~/.emacs.d/elpa/auctex-latexmk-20140107.215/auctex-latexmk-autoloads.el" "~/.emacs.d/elpa/org-20140106/org-loaddefs.el" "~/.emacs.d/elpa/org-20140106/org-autoloads.el" "/sudo:root@VAIO:/etc/default/grub" "/etc/default/" "/etc/default/grub" "/sudo:root@VAIO:/etc/grub.d/10_linux" "/sudo:root@VAIO:/etc/grub.d/00_header" "/etc/grub.d/" "/etc/grub.d/00_header" "/sudo:root@VAIO:/boot/grub/grub.cfg" "/boot/grub/grub.cfg" "/boot/grub/grub.cfg.example" "/boot/grub/" "~/.zsh_history" "/home/k-ohsugi/.zsh_history" "/home/k-ohsugi/Dropbox/awesome/themes/dust/theme.lua" "/home/k-ohsugi/Dropbox/awesome/wi.lua" "/home/k-ohsugi/Dropbox/awesome/rc.lua" "~/Dropbox/memo.org" "~/.emacs.d/elpa/helm-20140105.615/helm-autoloads.el" "~/.emacs.d/elpa/org-20140104/org-loaddefs.el" "~/.emacs.d/elpa/org-20140104/org-autoloads.el" "~/.emacs.d/elpa/dash-20140103.1117/dash-autoloads.el" "~/.config/awesome/wi.lua" "/home/k-ohsugi/.config/awesome/themes/dust/theme.lua" "/sudo:root@VAIO:/etc/systemd/system/multi-user.target.wants/dropbox@k-ohsugi.service" "/etc/systemd/system/" "~/.emacs.d/elpa/helm-20140102.628/helm-autoloads.el" "~/.emacs.d/elpa/yasnippet-20131231.758/yasnippet-autoloads.el" "/sudo:root@VAIO:/etc/acpi/events/anything" "/sudo:root@VAIO:/etc/acpi/actions/toggle-touchpad.sh" "/etc/acpi/actions/" "/etc/acpi/actions/toggle-touchpad.sh"))
+(setq-default TeX-command-history '("LatexMk" "BibTeX" "Clean All" "Evince" "Acroread"))
+(setq-default bibtex-key-history '("tsuda13"))
+(setq-default buffer-name-history '("*Moccur*" "ac-math.el" "*Backtrace*" "131224_all_meeting.rip" "comic-list.org" "*init log*" "*Org Src 131216_M1_meeting.org[ python ]*" "*scratch*" "*Org Table Edit Field*" "131216_M1_meeting.html"))
+(setq-default command-history '((insert-file "~/Dropbox/meeting/withHasegawa/1312xx/1312xx_M1_meeting.org") (insert-file "~/Dropbox/meeting/withHasegawa/140129/") (find-file "~/Dropbox/class/network_seminar2/paper.org" t) (find-file "~/.emacs.d/inits/20_org-mode.el" t) (find-file "~/Dropbox/meeting/withHasegawa/140129/140129_meeting.org" t) (dired-create-directory "~/Dropbox/meeting/withHasegawa/140129") (find-file "~/Dropbox/meeting/withHasegawa/" t) (find-file "~/.emacs.d/inits/60_yasnippet.el" t) (zap-to-char 1 134217848) (find-file "~/Dropbox/job_hunting/PR.org" t) (find-file "~/Dropbox/etc/company_information/company_info.org" t) (find-file "~/Dropbox/class/network_seminar2/slide.tex" t) (find-file "~/Dropbox/class/network_seminar2/slide.bib" t) (package-list-packages nil) (execute-extended-command nil "package-list-packages") (find-file "~/.emacs.d/inits/00_default.el" t) (find-file "~/.emacs.d/inits/" t) (find-file "~/.emacs.d/inits/00_default.elc" t) (find-file "~/Dropbox/job_hunting/yahoo_es.org" t) (find-file "~/Dropbox/class/mobile_protocol/report6/report6.bib" t) (find-file "~/Dropbox/class/mobile_protocol/report6/report6.org" t) (find-file "~/Dropbox/class/network_seminar2/slide_structure.org" t) (find-file "~/Dropbox/class/network_seminar2/slide.org" t) (yas-load-snippet-buffer-and-close (quote org-mode) nil) (find-file "~/Dropbox/class/basic_network/report8/report8.org" t) (dired-create-directory "~/Dropbox/class/basic_network/report8") (find-file "~/Dropbox/class/basic_network/" t) (find-file "/etc/acpi/actions/handler.sh" t) (find-file "/sudo:root@VAIO:/etc/default/grub" t) (find-file "/etc/default/" t) (moccur-grep "/sudo:root@VAIO:/etc/grub.d/" (quote ("noncq"))) (find-file "/sudo:root@VAIO:/etc/grub.d/10_linux" t) (find-file "/etc/grub.d/" t) (find-file "/boot/grub/grub.cfg" t) (find-file "/boot/grub/" t) (find-file "~/.zsh_history" t) (find-file "~/.zshrc" t) (find-file "~/.config/awesome/rc.lua" t) (find-file "~/Dropbox/memo.org" t) (query-replace "left" "right" nil (if (and transient-mark-mode mark-active) (region-beginning)) (if (and transient-mark-mode mark-active) (region-end))) (kill-buffer "*Moccur*") (moccur-grep "~/.config/awesome/" (quote ("volicon"))) (query-replace "right" "left" nil (if (and transient-mark-mode mark-active) (region-beginning)) (if (and transient-mark-mode mark-active) (region-end))) (query-replace "left_graphbox" "right_wibox" nil (if (and transient-mark-mode mark-active) (region-beginning)) (if (and transient-mark-mode mark-active) (region-end))) (find-file "~/.config/awesome/wi.lua" t) (moccur-grep "~/.config/awesome/" (quote ("cpupct")))))
+(setq-default extended-command-history '("package-list-packages" "ispell-buffer" "ispell-minor-mode" "flyspell-mode" "eval-buffer" "elp-results" "count-lines-region" "moccur-grep" "count-words-region" "yas-reload-all" "org-display-inline-images" "org-toggle-inline-images" "org-redisplay-inline-images" "org-edit-src-code" "describe-key" "org-src-mode" "org-version" "pascal-mode"))
+(setq-default helm-c-grep-history '("yasnippet" "k-ohsugi" "wpa_pass" "wpa_passp" "icon"))
+(setq-default helm-c-source-complex-command-history '((name . "Complex Command History") (candidates lambda nil (mapcar (quote prin1-to-string) command-history)) (type . sexp)))
+(setq-default helm-c-source-ff-file-name-history '((name . "File name history") (init lambda nil (when helm-ff-file-name-history-use-recentf (require (quote recentf)) (or recentf-mode (recentf-mode 1)))) (candidates lambda nil (if helm-ff-file-name-history-use-recentf recentf-list file-name-history)) (persistent-action . ignore) (filtered-candidate-transformer . helm-file-name-history-transformer) (action ("Find file" lambda (candidate) (helm-set-pattern (expand-file-name candidate)) (with-helm-after-update-hook (helm-exit-minibuffer))) ("Find file in helm" lambda (candidate) (helm-set-pattern (expand-file-name candidate))))))
+(setq-default helm-c-source-file-name-history '((name . "File Name History") (candidates . file-name-history) (type . file)))
+(setq-default helm-c-source-global-mark-ring '((name . "global-mark-ring") (candidates . helm-global-mark-ring-get-candidates) (action ("Goto line" lambda (candidate) (let ((items (split-string candidate ":"))) (helm-switch-to-buffer (cl-second items)) (helm-goto-line (string-to-number (car items)))))) (persistent-action lambda (candidate) (let ((items (split-string candidate ":"))) (helm-switch-to-buffer (cl-second items)) (helm-goto-line (string-to-number (car items))) (helm-highlight-current-line))) (persistent-help . "Show this line")))
+(setq-default helm-c-source-kill-ring '((name . "Kill Ring") (init lambda nil (helm-attrset (quote last-command) last-command)) (candidates . helm-kill-ring-candidates) (filtered-candidate-transformer helm-kill-ring-transformer) (action ("Yank" . helm-kill-ring-action) ("Delete" lambda (candidate) (cl-loop for cand in (helm-marked-candidates) do (setq kill-ring (delete cand kill-ring))))) (keymap keymap (27 keymap (117 . helm-previous-line) (121 . helm-next-line)) keymap (menu-bar keymap (help-menu keymap (describe keymap (describe-mode . helm-help)))) (help keymap (109 . helm-help)) (f1 keymap (109 . helm-help)) (8 . delete-backward-char) (20 . helm-toggle-resplit-and-swap-windows) (C-tab . undefined) (67108897 . helm-toggle-suspend-update) (3 keymap (1 . all-from-helm-occur) (21 . helm-force-update) (6 . helm-follow-mode) (11 . helm-kill-selection-and-quit) (25 . helm-yank-selection) (4 . helm-delete-current-selection) (45 . helm-swap-windows)) (67108987 . helm-enlarge-window) (67108989 . helm-narrow-window) (19 . undefined) (18 . undefined) (23 . helm-yank-text-at-point) (24 keymap (2 . helm-resume-list-buffers-after-quit) (98 . helm-resume-previous-session-after-quit) (6 . helm-quit-and-find-file)) (11 . helm-delete-minibuffer-contents) (67108896 . helm-toggle-visible-mark) (C-M-up . helm-scroll-other-window-down) (C-M-down . helm-scroll-other-window) (M-prior . helm-scroll-other-window-down) (M-next . helm-scroll-other-window) (12 . helm-recenter-top-bottom-other-window) (15 . helm-next-source) (10 . helm-select-3rd-action) (5 . helm-select-2nd-action-or-end-of-line) (26 . helm-execute-persistent-action) (9 . helm-select-action) (13 . helm-exit-minibuffer) (left . helm-previous-source) (right . helm-next-source) (7 . helm-keyboard-quit) (22 . helm-next-page) (27 keymap (110 . next-history-element) (112 . previous-history-element) (115 . undefined) (5 . helm-display-all-sources) (1 . helm-show-all-in-this-source-only) (117 . helm-unmark-all) (97 . helm-mark-all) (109 . helm-toggle-all-marks) (93 . helm-next-visible-mark) (91 . helm-prev-visible-mark) (32 . helm-toggle-visible-mark) (33554454 . helm-scroll-other-window-down) (25 . helm-scroll-other-window-down) (22 . helm-scroll-other-window) (12 . helm-reposition-window-other-window) (62 . helm-end-of-buffer) (60 . helm-beginning-of-buffer) (118 . helm-previous-page)) (next . helm-next-page) (prior . helm-previous-page) (16 . helm-previous-line) (14 . helm-next-line) (up . helm-previous-line) (down . helm-next-line) keymap (26 . undefined) (18 . helm-minibuffer-history) (S-tab . zlc-select-previous) (backtab . zlc-select-previous) (menu-bar keymap (minibuf #1="Minibuf" keymap (previous menu-item "Previous History Item" previous-history-element :help "Put previous minibuffer history element in the minibuffer") (next menu-item "Next History Item" next-history-element :help "Put next minibuffer history element in the minibuffer") (isearch-backward menu-item "Isearch History Backward" isearch-backward :help "Incrementally search minibuffer history backward") (isearch-forward menu-item "Isearch History Forward" isearch-forward :help "Incrementally search minibuffer history forward") (return menu-item "Enter" exit-minibuffer :key-sequence "" :help "Terminate input and exit minibuffer") (quit menu-item "Quit" abort-recursive-edit :help "Abort input and exit minibuffer") #1#)) (10 . exit-minibuffer) (13 . exit-minibuffer) (7 . minibuffer-keyboard-quit) (C-tab . file-cache-minibuffer-complete) (9 . self-insert-command) (XF86Back . previous-history-element) (up . previous-history-element) (prior . previous-history-element) (XF86Forward . next-history-element) (down . next-history-element) (next . next-history-element) (27 keymap (63 . session-minibuffer-history-help) (114 . previous-matching-history-element) (115 . next-matching-history-element) (112 . previous-history-element) (110 . next-history-element))) (last-command . save-buffer) (migemo) (multiline)))
+(setq-default helm-c-source-mark-ring '((name . "mark-ring") (candidates . helm-mark-ring-get-candidates) (action ("Goto line" lambda (candidate) (helm-goto-line (string-to-number candidate)))) (persistent-action lambda (candidate) (helm-goto-line (string-to-number candidate)) (helm-highlight-current-line)) (persistent-help . "Show this line")))
+(setq-default helm-c-source-minibuffer-history '((name . "Minibuffer History") (header-name lambda (name) (format "%s (%s)" name minibuffer-history-variable)) (candidates lambda nil (let ((history (cl-loop for i in (symbol-value minibuffer-history-variable) unless (string= "" i) collect i))) (if (consp (car history)) (mapcar (quote prin1-to-string) history) history))) (migemo) (multiline) (action lambda (candidate) (delete-minibuffer-contents) (insert candidate))))
+(setq-default helm-grep-history '("yasnippet" "k-ohsugi" "wpa_pass" "wpa_passp" "icon"))
+(setq-default helm-source--ff-file-name-history '((name . "File name history") (init lambda nil (with-helm-alive-p (when helm-ff-file-name-history-use-recentf (require (quote recentf)) (or recentf-mode (recentf-mode 1))))) (candidates lambda nil (if helm-ff-file-name-history-use-recentf recentf-list file-name-history)) (persistent-action . ignore) (filtered-candidate-transformer . helm-file-name-history-transformer) (action ("Find file" lambda (candidate) (helm-set-pattern (expand-file-name candidate)) (with-helm-after-update-hook (helm-exit-minibuffer))) ("Find file in helm" lambda (candidate) (helm-set-pattern (expand-file-name candidate))))))
+(setq-default helm-source-complex-command-history '((name . "Complex Command History") (candidates lambda nil (mapcar (quote prin1-to-string) command-history)) (type . sexp)))
+(setq-default helm-source-ff-file-name-history '((name . "File name history") (init lambda nil (when helm-ff-file-name-history-use-recentf (require (quote recentf)) (or recentf-mode (recentf-mode 1)))) (candidates lambda nil (if helm-ff-file-name-history-use-recentf recentf-list file-name-history)) (persistent-action . ignore) (filtered-candidate-transformer . helm-file-name-history-transformer) (action ("Find file" lambda (candidate) (helm-set-pattern (expand-file-name candidate)) (with-helm-after-update-hook (helm-exit-minibuffer))) ("Find file in helm" lambda (candidate) (helm-set-pattern (expand-file-name candidate))))))
+(setq-default helm-source-file-name-history '((name . "File Name History") (candidates . file-name-history) (type . file)))
+(setq-default helm-source-global-mark-ring '((name . "global-mark-ring") (candidates . helm-global-mark-ring-get-candidates) (action ("Goto line" lambda (candidate) (let ((items (split-string candidate ":"))) (helm-switch-to-buffer (cl-second items)) (helm-goto-line (string-to-number (car items)))))) (persistent-action lambda (candidate) (let ((items (split-string candidate ":"))) (helm-switch-to-buffer (cl-second items)) (helm-goto-line (string-to-number (car items))) (helm-highlight-current-line))) (persistent-help . "Show this line")))
+(setq-default helm-source-kill-ring '((name . "Kill Ring") (init lambda nil (helm-attrset (quote last-command) last-command)) (candidates . helm-kill-ring-candidates) (filtered-candidate-transformer helm-kill-ring-transformer) (action ("Yank" . helm-kill-ring-action) ("Delete" lambda (candidate) (cl-loop for cand in (helm-marked-candidates) do (setq kill-ring (delete cand kill-ring))))) (keymap keymap (27 keymap (117 . helm-previous-line) (121 . helm-next-line)) keymap (menu-bar keymap (help-menu keymap (describe keymap (describe-mode . helm-help)))) (help keymap (109 . helm-help)) (f1 keymap (109 . helm-help)) (8 . delete-backward-char) (20 . helm-toggle-resplit-and-swap-windows) (C-tab . undefined) (67108897 . helm-toggle-suspend-update) (3 keymap (1 . all-from-helm-occur) (21 . helm-force-update) (6 . helm-follow-mode) (11 . helm-kill-selection-and-quit) (25 . helm-yank-selection) (4 . helm-delete-current-selection) (45 . helm-swap-windows)) (67108987 . helm-enlarge-window) (67108989 . helm-narrow-window) (19 . undefined) (18 . undefined) (23 . helm-yank-text-at-point) (24 keymap (2 . helm-resume-list-buffers-after-quit) (98 . helm-resume-previous-session-after-quit) (6 . helm-quit-and-find-file)) (11 . helm-delete-minibuffer-contents) (67108896 . helm-toggle-visible-mark) (C-M-up . helm-scroll-other-window-down) (C-M-down . helm-scroll-other-window) (M-prior . helm-scroll-other-window-down) (M-next . helm-scroll-other-window) (12 . helm-recenter-top-bottom-other-window) (15 . helm-next-source) (10 . helm-select-3rd-action) (5 . helm-select-2nd-action-or-end-of-line) (26 . helm-execute-persistent-action) (9 . helm-select-action) (13 . helm-exit-minibuffer) (left . helm-previous-source) (right . helm-next-source) (7 . helm-keyboard-quit) (22 . helm-next-page) (27 keymap (110 . next-history-element) (112 . previous-history-element) (115 . undefined) (5 . helm-display-all-sources) (1 . helm-show-all-in-this-source-only) (117 . helm-unmark-all) (97 . helm-mark-all) (109 . helm-toggle-all-marks) (93 . helm-next-visible-mark) (91 . helm-prev-visible-mark) (32 . helm-toggle-visible-mark) (33554454 . helm-scroll-other-window-down) (25 . helm-scroll-other-window-down) (22 . helm-scroll-other-window) (12 . helm-reposition-window-other-window) (62 . helm-end-of-buffer) (60 . helm-beginning-of-buffer) (118 . helm-previous-page)) (next . helm-next-page) (prior . helm-previous-page) (16 . helm-previous-line) (14 . helm-next-line) (up . helm-previous-line) (down . helm-next-line) keymap (26 . undefined) (18 . helm-minibuffer-history) (S-tab . zlc-select-previous) (backtab . zlc-select-previous) (menu-bar keymap (minibuf #1="Minibuf" keymap (previous menu-item "Previous History Item" previous-history-element :help "Put previous minibuffer history element in the minibuffer") (next menu-item "Next History Item" next-history-element :help "Put next minibuffer history element in the minibuffer") (isearch-backward menu-item "Isearch History Backward" isearch-backward :help "Incrementally search minibuffer history backward") (isearch-forward menu-item "Isearch History Forward" isearch-forward :help "Incrementally search minibuffer history forward") (return menu-item "Enter" exit-minibuffer :key-sequence "" :help "Terminate input and exit minibuffer") (quit menu-item "Quit" abort-recursive-edit :help "Abort input and exit minibuffer") #1#)) (10 . exit-minibuffer) (13 . exit-minibuffer) (7 . minibuffer-keyboard-quit) (C-tab . file-cache-minibuffer-complete) (9 . self-insert-command) (XF86Back . previous-history-element) (up . previous-history-element) (prior . previous-history-element) (XF86Forward . next-history-element) (down . next-history-element) (next . next-history-element) (27 keymap (63 . session-minibuffer-history-help) (114 . previous-matching-history-element) (115 . next-matching-history-element) (112 . previous-history-element) (110 . next-history-element))) (last-command . save-buffer) (migemo) (multiline)))
+(setq-default helm-source-mark-ring '((name . "mark-ring") (candidates . helm-mark-ring-get-candidates) (action ("Goto line" lambda (candidate) (helm-goto-line (string-to-number candidate)))) (persistent-action lambda (candidate) (helm-goto-line (string-to-number candidate)) (helm-highlight-current-line)) (persistent-help . "Show this line")))
+(setq-default helm-source-minibuffer-history '((name . "Minibuffer History") (header-name lambda (name) (format "%s (%s)" name minibuffer-history-variable)) (candidates lambda nil (let ((history (cl-loop for i in (symbol-value minibuffer-history-variable) unless (string= "" i) collect i))) (if (consp (car history)) (mapcar (quote prin1-to-string) history) history))) (migemo) (multiline) (action lambda (candidate) (delete-minibuffer-contents) (insert candidate))))
+(setq-default minibuffer-history '("org" "/home/k-ohsugi/" "rep" "p" "pa" "-------" "binding"))
+(setq-default occur-collect-regexp-history '("\\1"))
+(setq-default query-replace-history '("right" "left" "right_wibox" "left_graphbox" "face" "Face"))
+(setq-default read-expression-history '("ac-sources"))
+(setq-default regexp-history '("noncq" "volicon" "cpupct" "/etc/acpi/"))
+(setq-default search-ring '("定式化すると" "bib" "ip" "for" "helm" "yasnippet" "> " "の" "レベル" "、" "alias" "disable" "sub" "no" "noncq" "lib"))
+(setq-default serial-name-history '("/dev/ttyS0"))
+(setq-default serial-speed-history '("9600" "1200" "2400" "4800" "14400" "19200" "28800" "38400" "57600" "115200"))
+(setq-default table-capture-columns-history '(""))
+(setq-default table-capture-justify-history '("left"))
+(setq-default table-capture-min-cell-width-history '("5"))
+(setq-default table-cell-height-history '("1"))
+(setq-default table-cell-span-direction-history '("right"))
+(setq-default table-cell-split-contents-to-history '("split"))
+(setq-default table-cell-split-orientation-history '("horizontally"))
+(setq-default table-cell-width-history '("5"))
+(setq-default table-col-delim-regexp-history '(""))
+(setq-default table-columns-history '("3"))
+(setq-default table-insert-row-column-history '("row"))
+(setq-default table-justify-history '("center"))
+(setq-default table-row-delim-regexp-history '(""))
+(setq-default table-rows-history '("3"))
+(setq-default table-sequence-count-history '("0"))
+(setq-default table-sequence-increment-history '("1"))
+(setq-default table-sequence-interval-history '("1"))
+(setq-default table-sequence-justify-history '("left"))
+(setq-default table-sequence-string-history '("0"))
+(setq-default table-source-caption-history '("Table"))
+(setq-default table-source-language-history '("html"))
+(setq-default table-target-history '("cell"))

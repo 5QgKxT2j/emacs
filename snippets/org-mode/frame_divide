@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: frame_divide
+# key: div
+# --
+\begin{frame}[allowframebreaks]{References}
+\bibliography{${bib}}
+\end{frame}

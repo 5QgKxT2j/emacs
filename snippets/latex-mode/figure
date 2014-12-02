@@ -1,0 +1,11 @@
+# -*- mode: snippet -*-
+# name: figure
+# key: fig
+# --
+
+\begin{figure}[tb]
+  \centering
+  \includegraphics[scale=1.0]{$1}
+  \caption{$2}
+  \label{fig:$3}
+\end{figure}

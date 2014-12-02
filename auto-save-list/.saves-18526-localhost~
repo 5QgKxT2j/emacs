@@ -1,0 +1,10 @@
+/ssh:router@192.168.10.80:/home/router/sleep.c
+#_assh_brouter@192.168.10.80_b_ahome_arouter_asleep.c#
+/ssh:router@192.168.10.80:/home/router/cpu-clock.c
+#_assh_brouter@192.168.10.80_b_ahome_arouter_acpu-clock.c#
+/ssh:server1@192.168.10.90:/home/server1/receive.c
+#_assh_bserver1@192.168.10.90_b_ahome_aserver1_areceive.c#
+/ssh:client1@192.168.10.85:/home/client1/send.c
+#_assh_bclient1@192.168.10.85_b_ahome_aclient1_asend.c#
+/ssh:router@192.168.10.80:/home/router/test.c
+#_assh_brouter@192.168.10.80_b_ahome_arouter_atest.c#

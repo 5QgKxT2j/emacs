@@ -1,0 +1,8 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: alertblock
+# key: ale
+# binding: direct-keybinding
+# --
+  :PROPERTIES:
+  :BEAMER_env: alertblock
+  :END:

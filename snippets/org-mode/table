@@ -1,0 +1,6 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: table
+# key: tab
+# binding: direct-keybinding
+# --
+#+ATTR_LaTeX: :align |c|c|c|

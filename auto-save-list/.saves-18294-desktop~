@@ -1,0 +1,6 @@
+/sudo:root@desktop:/etc/pacman.conf
+#_asudo_broot@desktop_b_aetc_apacman.conf#
+/etc/pacman.d/mirrorlist
+/etc/pacman.d/#mirrorlist#
+/etc/clamav/freshclam.conf
+/etc/clamav/#freshclam.conf#

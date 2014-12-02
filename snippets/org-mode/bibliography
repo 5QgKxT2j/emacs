@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: bibliography
+# key: bib
+# --
+\bibliographystyle{IEEE}
+\bibliography{$1}

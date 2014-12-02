@@ -1,0 +1,4 @@
+/sudo:root@VAIO:/etc/netctl/wlp1s0-WARPSTAR-410405
+#_asudo_broot@VAIO_b_aetc_anetctl_awlp1s0-WARPSTAR-410405#
+/etc/netctl/hooks/timeout_dhcp
+/etc/netctl/hooks/#timeout_dhcp#

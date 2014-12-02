@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: figure
+# key: fig
+# --
+\centering
+#+ATTR_LaTeX: :width 0.9\linewidth :height 0.5\textheight
+$0

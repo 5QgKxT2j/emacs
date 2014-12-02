@@ -1,0 +1,4 @@
+/sudo:root@desktop:/etc/X11/xorg.conf.d/10-monitor.conf
+#_asudo_broot@desktop_b_aetc_aX11_axorg.conf.d_a10-monitor.conf#
+/sudo:root@desktop:/etc/clamav/clamd.conf
+#_asudo_broot@desktop_b_aetc_aclamav_aclamd.conf#

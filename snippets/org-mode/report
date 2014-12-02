@@ -1,0 +1,15 @@
+# -*- mode: snippet -*-
+# name: report
+# key: rep
+# --
+#+TITLE: $1
+#+AUTHOR: Kaito Ohsugi
+#+EMAIL: k-ohsugi@ist.osaka-u.ac.jp
+#+DATE: \today
+#+OPTIONS: H:5 toc:nil
+#+LATEX_CLASS: jsarticle
+#+LATEX_CLASS_OPTIONS: [a4j,10pt,uplatex]
+#+LATEX_HEADER: \usepackage[top=20truemm,bottom=20truemm,left=20truemm,right=20truemm]{geometry}
+#+BIBLIOGRAPHY: 
+
+$0

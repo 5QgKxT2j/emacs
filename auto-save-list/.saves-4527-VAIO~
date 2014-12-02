@@ -1,0 +1,10 @@
+/sudo:root@VAIO:/etc/default/grub
+#_asudo_broot@VAIO_b_aetc_adefault_agrub#
+/etc/default/grub
+/etc/default/#grub#
+/sudo:root@VAIO:/etc/grub.d/10_linux
+#_asudo_broot@VAIO_b_aetc_agrub.d_a10__linux#
+/sudo:root@VAIO:/etc/grub.d/00_header
+#_asudo_broot@VAIO_b_aetc_agrub.d_a00__header#
+/etc/grub.d/00_header
+/etc/grub.d/#00_header#

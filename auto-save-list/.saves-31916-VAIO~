@@ -1,0 +1,8 @@
+/sudo:root@VAIO:/etc/acpi/actions/handler.sh
+#_asudo_broot@VAIO_b_aetc_aacpi_aactions_ahandler.sh#
+/sudo:root@VAIO:/etc/acpi/actions/toggle-touchpad.sh
+#_asudo_broot@VAIO_b_aetc_aacpi_aactions_atoggle-touchpad.sh#
+/etc/acpi/actions/toggle-touchpad.sh
+/etc/acpi/actions/#toggle-touchpad.sh#
+/etc/acpi/actions/handler.sh
+/etc/acpi/actions/#handler.sh#

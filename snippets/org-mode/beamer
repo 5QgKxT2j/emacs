@@ -1,0 +1,12 @@
+# -*- mode: snippet -*-
+# name: beamer
+# key: bea
+# --
+#+TITLE: 
+#+AUTHOR: 大杉 海斗
+#+DATE: \today
+#+OPTIONS: H:2 toc:nil
+#+LATEX_CLASS: beamer
+#+LATEX_CLASS_OPTIONS: [dvipdfmx,12pt]
+#+LaTeX_HEADER: \institute[]{大阪大学大学院\\情報科学研究科情報ネットワーク学専攻}
+#+BIBLIOGRAPHY: 
